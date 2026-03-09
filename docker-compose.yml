@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mkdona-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pgdb
+      POSTGRES_PASSWORD: supg
+      POSTGRES_DB: mkdona
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U pgdb" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
